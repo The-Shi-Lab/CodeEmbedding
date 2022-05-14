@@ -9,6 +9,10 @@ from collections import Counter
 import argparse
 from datetime import datetime
 
+########################################
+## Read in data and set up parameters ##
+########################################
+
 parser = argparse.ArgumentParser(description='Create co-occurrence matrix for EHR code within different time windows.')
 parser.add_argument('-i', '--infile', help='Directory for input file (all numeric variables)')
 parser.add_argument('-o', '--outfile', help='Directory for output file (code1, code2, count, and window)')
@@ -17,29 +21,37 @@ parser.add_argument('-c', '--chunk', type=int, help='current chunk number (array
 parser.add_argument('-tc', '--tot_chunks', type=int, help='split data into tot_chuncks of patients to speed up the process', default=1)
 args = parser.parse_args()
 
+# window is defined in terms of day difference, e.g. window=0 indicates only include "today"
 windows = args.windows
+
+# store co-occurence count for each windows
 matrices = [Counter() for _ in range(len(windows))]
 print(windows)
 
-
 print('start read in file: ', datetime.today())
-#os.getcwd()
+# os.getcwd()
+# read in data
 events = pd.read_csv(args.infile, header=0)
 
-chunk = args.chunk
-#chunk = 10
-tot_chuncks = args.tot_chunks
-#tot_chuncks = 4800
+chunk = args.chunk #chunk = 10
+tot_chuncks = args.tot_chunks #tot_chuncks = 4800
+
+# total number of pts and number of pts per chunk
 tot_pt = events['PId'].max()
 chunk_per_pt = round(tot_pt / tot_chuncks)
 
+# subset data from Patient ID 'min_pid' to 'max_pid'
 min_pid = (chunk_per_pt*(chunk-1)+1)
 max_pid = chunk*chunk_per_pt
 
 print(min_pid)
 print(max_pid)
 
+##################################
+## Calculate cooccurence matrix ##
+##################################
 
+# subset data to chunks
 events_perpt = events.loc[(events['PId'] >= min_pid) & (events['PId'] <= max_pid)]
 
 bar = tqdm(total=len(events_perpt))
@@ -58,25 +70,36 @@ for i in range(len(events_perpt)-1):
         if code < ncode: matrices[tempLoc][(code,ncode)]+=1
         else: matrices[tempLoc][(ncode, code)]+=1
     bar.update(1)
-    
 
+#########################
+## Format output table ##
+#########################
+
+# format table to data frame
 tempall = [pd.DataFrame.from_dict(matrices[i], orient='index').reset_index() for i in range(len(windows))]
 for i in range(len(windows)):
     tempall[i]['window']=windows[i]
     tempall[i]['code1']=[x[0] for x in tempall[i]['index']]
     tempall[i]['code2']=[x[1] for x in tempall[i]['index']]
     
+# merge all table into one long table
 temp=pd.concat(tempall, axis=0)
+
+# output table dimension
 temp.shape
 
+# format column name
 temp = temp.rename(columns={0: 'count'})
 co_occur = temp.loc[:,['code1','code2','count','window']]
 
+## what does the coding below mean ##
 #co_occur = temp.iloc[:,[3,4,1,2]]
 #co_occur = co_occur.rename(columns={0: 'count'})
 #display(co_occur)
 
-
+##############################
+## Output table to csv file ##
+##############################
 print('start write out file: ', datetime.today())
 outfile = args.outfile
 new_outfile = str(outfile.replace('.csv','')+'_'+str(chunk)+'.csv')
