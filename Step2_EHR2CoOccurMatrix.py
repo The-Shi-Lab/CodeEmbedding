@@ -13,7 +13,7 @@ from datetime import datetime
 ## Read in data and set up parameters ##
 ########################################
 
-#Create shortcut to insert instructions  
+#Create command line arguments  
 parser = argparse.ArgumentParser(description='Create co-occurrence matrix for EHR code within different time windows.')
 parser.add_argument('-i', '--infile', help='Directory for input file (all numeric variables)')
 parser.add_argument('-o', '--outfile', help='Directory for output file (code1, code2, count, and window)')
