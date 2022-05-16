@@ -13,6 +13,7 @@ from datetime import datetime
 ## Read in data and set up parameters ##
 ########################################
 
+#Create shortcut to insert instructions  
 parser = argparse.ArgumentParser(description='Create co-occurrence matrix for EHR code within different time windows.')
 parser.add_argument('-i', '--infile', help='Directory for input file (all numeric variables)')
 parser.add_argument('-o', '--outfile', help='Directory for output file (code1, code2, count, and window)')
@@ -21,7 +22,7 @@ parser.add_argument('-c', '--chunk', type=int, help='current chunk number (array
 parser.add_argument('-tc', '--tot_chunks', type=int, help='split data into tot_chuncks of patients to speed up the process', default=1)
 args = parser.parse_args()
 
-# window is defined in terms of day difference, e.g. window=0 indicates only include "today"
+# window is defined in terms of day difference, e.g. window=0 indicates only includes "today"
 windows = args.windows
 
 # store co-occurence count for each windows
@@ -36,11 +37,11 @@ events = pd.read_csv(args.infile, header=0)
 chunk = args.chunk #chunk = 10
 tot_chuncks = args.tot_chunks #tot_chuncks = 4800
 
-# total number of pts and number of pts per chunk
+# total number of patients and number of patients per chunk
 tot_pt = events['PId'].max()
 chunk_per_pt = round(tot_pt / tot_chuncks)
 
-# subset data from Patient ID 'min_pid' to 'max_pid'
+# subset data into the chunk from Patient ID 'min_pid' to 'max_pid' 
 min_pid = (chunk_per_pt*(chunk-1)+1)
 max_pid = chunk*chunk_per_pt
 
@@ -51,11 +52,12 @@ print(max_pid)
 ## Calculate cooccurence matrix ##
 ##################################
 
-# subset data to chunks
+# subset data to chunks, read the table file and subset based on the calculated ID range
 events_perpt = events.loc[(events['PId'] >= min_pid) & (events['PId'] <= max_pid)]
 
 bar = tqdm(total=len(events_perpt))
 
+# calculate cooccurance matrix
 for i in range(len(events_perpt)-1): 
     sid, day, code = events_perpt.iloc[i]
     for j in range(i+1, len(events_perpt)):
