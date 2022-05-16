@@ -11,7 +11,9 @@ Version <- args[3]
 
 print(c(DataSource, Window, Version))
 
+##############
 ### Part 1 ###
+##############
 
 DxCrosswalk <- read.table('/nfs/turbo/mgi-shixu/project/CodeEmbedding_SurgPcpCohort/data/CodeCrosswalk/DxCode_num.txt', header=T)
 dim(DxCrosswalk)
@@ -50,8 +52,9 @@ dim(ICDinDx)
 
 
 
-
+##############
 ### Part 2 ###
+##############
 
 # DataSource <- 'Dx'
 # Window <- 7
