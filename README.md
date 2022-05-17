@@ -4,6 +4,7 @@
 ## 05/05/22 ##
 
 # STEP 1 #
+A data prepossessing step to convert original EHR data into "cooccur" format
 - Step1_EHR2LongNumFormat.R
 - Convert EHR data (diagnostics, procedures, lab) to long format with 3 columns (PId, numDays, and CId)
 - All numeric variables and sorted by PId then numDays
