@@ -34,6 +34,7 @@ print('start read in file: ', datetime.today())
 # read in data
 events = pd.read_csv(args.infile, header=0)
 
+# input chunk and tot_chunks through command line
 chunk = args.chunk #chunk = 10
 tot_chuncks = args.tot_chunks #tot_chuncks = 4800
 
