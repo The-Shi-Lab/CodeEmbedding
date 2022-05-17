@@ -69,7 +69,7 @@ for(j in 1:20){
 
 matrices_all_accum <- matrices_all
 for(i in 2:length(windows)){
-  matrices_all_accum[[i]] <- matrices_all_accum[[i]]+matrices_all_accum[[i-1]] # Since counts in longer window should always includes counts in shorter window
+  matrices_all_accum[[i]] <- matrices_all_accum[[i]]+matrices_all_accum[[i-1]]
 }
 
 
