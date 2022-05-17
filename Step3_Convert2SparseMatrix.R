@@ -41,6 +41,7 @@ for(j in 1:20){
   for(i in 1:length(windows)){
     # print(c('window: ', i))
     coccurtemp <- subset(coccur, window==windows[i])
+    # format the matrices within the same window
     matrices <- append(matrices, 
                        sparseMatrix(i=as.integer(coccurtemp$code1),
                                     j=as.integer(coccurtemp$code2),
@@ -53,6 +54,7 @@ for(j in 1:20){
   }else{
     for(k in 1:length(windows)){
       # print(k)
+      # merge the result from different window from all chunks
       matrices_all[[k]] <- matrices_all[[k]]+matrices[[k]]
     }
   }
