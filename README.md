@@ -1,8 +1,4 @@
-# CodeEmbedding flowwork -- an example using MGI data
-
-#####################################################
-### Analysis Pipeline to Generate Code Embeddings ###
-#####################################################
+# Analysis Pipeline to Generate Code Embeddings -- an example using MGI data
 
 ## adapted codes from Xu Shi, Xianshi Yu, and Kuan-Han Wu ##
 ## 05/05/22 ##
