@@ -67,7 +67,7 @@ for i in range(len(events_perpt)-1):
         diffDay = nday - day   
         if diffDay > windows[-1]: break
         
-        #similar to which, looking for which independent window interval to save the count, e.g. windows=[0,1,6,13], diffDay=3, hence it belongs to interval [1,6]
+        #similar to which, looking for which non-overlapping window interval to save the count, e.g. windows=[0,1,6,13], diffDay=3, hence it belongs to the interval [1,6]
         tempLoc=np.where([x>=diffDay for x in windows])[0][0]
         
         #coocurance pair (3,5) and (5,3) should be considered as the same, and we unified them by setting the first code always smaller than the second one
