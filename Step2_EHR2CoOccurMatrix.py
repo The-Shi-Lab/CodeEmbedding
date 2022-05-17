@@ -22,7 +22,7 @@ parser.add_argument('-c', '--chunk', type=int, help='current chunk number (array
 parser.add_argument('-tc', '--tot_chunks', type=int, help='split data into tot_chuncks of patients to speed up the process', default=1)
 args = parser.parse_args()
 
-# window is defined in terms of day difference, e.g. window=0 indicates only includes "today"
+# window is defined in terms of day difference, e.g. window=0 indicates as the same day
 windows = args.windows
 
 # store co-occurence count for each windows
