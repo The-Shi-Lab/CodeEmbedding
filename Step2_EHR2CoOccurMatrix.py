@@ -95,10 +95,6 @@ temp.shape
 temp = temp.rename(columns={0: 'count'})
 co_occur = temp.loc[:,['code1','code2','count','window']]
 
-## what does the alternative coding below mean ##
-#co_occur = temp.iloc[:,[3,4,1,2]]
-#co_occur = co_occur.rename(columns={0: 'count'})
-#display(co_occur)
 
 ##############################
 ## Output table to csv file ##
