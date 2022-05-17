@@ -54,7 +54,7 @@ for(j in 1:20){
   }else{
     for(k in 1:length(windows)){
       # print(k)
-      # merge the result from different window from all chunks
+      # merge the result from different window for all chunks
       matrices_all[[k]] <- matrices_all[[k]]+matrices[[k]]
     }
   }
