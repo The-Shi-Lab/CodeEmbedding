@@ -31,3 +31,6 @@ A data prepossessing step to convert original EHR data into "cooccur" format
 # STEP 5 #
 - Calculate cosine similarity and use phecode to obtain AUC
 - Phecode/ICD crosswalk and code to calculate cosine similary can be found in Step5_CosineSimilarity_short.R
+
+# References #
+[1] Part of the code in Step2 is originated from the package in [LargeScaleClinicalEmbedding](https://github.com/rusheniii/LargeScaleClinicalEmbedding) and modified by the team later.
