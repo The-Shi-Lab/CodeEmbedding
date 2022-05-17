@@ -31,14 +31,15 @@ print(DataSource)
 tot_EmbedVec <- 500
 MAX_ITERS <- 2000
 
-## load "matrices", an R list
+## load matrices, the result from Step3, an R list
 load(paste0('/nfs/turbo/mgi-shixu/project/AnalysisPipeline/CodeEmbedding_pipeline/data/CoOccurMatrix/', DataSource,'_CoOccurMatrix.RData'))
 
 ## getting window parameters with the information in the first cooccurmatrix is enough
 tmp <- read.csv(file='/nfs/turbo/mgi-shixu/project/AnalysisPipeline/CodeEmbedding_pipeline/data/CoOccurMatrix/Dx_CoOccurMatrix_1.csv')
 windows <- as.numeric(names(table(tmp$window)))
 
-#iter <- args[2] ??
+#iter <- args[2] ?? 
+##iteration of all output files from step3 ??
 
 
 #########################################################
@@ -57,7 +58,7 @@ for(i in 1:length(windows)){
   coccur$code2 <- as.character(coccur$code2)
   
   singletons <- getSingletonTb(coccur)
-  pmi <- construct_pmi(coccur, singletons, my.smooth=0.75) #my.smooth is \alpha parameter in the paper
+  pmi <- construct_pmi(coccur, singletons, my.smooth=0.75) #singleton frequencies my.smooth = smoothing the singletons frequencies by a constant exponential term \alpha, the parameter in the paper
   sppmi <- construct_sppmi(pmi, k=10) # k is the number of negative samples
   
   # set max iteration to 2000
