@@ -30,7 +30,10 @@ A data prepossessing step to convert original EHR data into "cooccur" format
 
 # STEP 5 #
 - Calculate cosine similarity and use phecode to obtain AUC
-- Phecode/ICD crosswalk and code to calculate cosine similary can be found in Step5_CosineSimilarity_short.R
+- Phecode/ICD crosswalk and format data
+- Code to calculate cosine similary 
+- The condensed version of code can be found in Step5_CosineSimilarity_short.R
 
 # References #
-[1] Part of the code in Step2 is originated from the package in [LargeScaleClinicalEmbedding](https://github.com/rusheniii/LargeScaleClinicalEmbedding) and modified by the team later.
+[1] Part of the code in Step2 is originated from the package in [LargeScaleClinicalEmbedding](https://github.com/rusheniii/LargeScaleClinicalEmbedding) and modified by the team later.  
+[2] Beam, A. L., Kompa, B., Schmaltz, A., Fried, I., Weber, G., Palmer, N., ... & Kohane, I. S. (2019). [Clinical concept embeddings learned from massive sources of multimodal medical data](https://www.worldscientific.com/doi/epdf/10.1142/9789811215636_0027). In PACIFIC SYMPOSIUM ON BIOCOMPUTING 2020 (pp. 295-306).  
