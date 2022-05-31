@@ -25,7 +25,7 @@ args = parser.parse_args()
 # window is defined in terms of day difference, e.g. window=0 indicates as the same day
 windows = args.windows
 
-# store co-occurence count for each windows
+# Create matrice to store co-occurence count for each windows
 matrices = [Counter() for _ in range(len(windows))]
 print(windows)
 
