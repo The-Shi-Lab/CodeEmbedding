@@ -3,10 +3,9 @@
 ## Adapted codes from Xu Shi, Xianshi Yu, and Kuan-Han Wu ##
 
 # STEP 1 #
-A data prepossessing step to convert original EHR data into "cooccur" long number format
-- Step1_EHR2LongNumFormat.R
-- Convert EHR data (diagnostics, procedures, lab) to long format with 3 columns (PId, numDays, and CId)
-- All numeric variables and sorted by PId then numDays
+As shown in Step1_EHR2LongNumFormat.R. This is a data prepossessing step to convert original EHR data into desired format. In this step we convert the raw data DiagnosisCode ProcedureCode and ResultCode from the dataset diagnosis, procedure, and lab respectively into unique long-form and record them in column code_num in new datasets. The new dataset converted from the raw set now has 3 columns: patient id, the day of the visit recorded as the day since birth, and medical codes as code_num.
+- Notice: Please note that this procedure is specified with different data resources, that is, you need to create your personalized converting code for Step1 to get ready for further steps. 
+- All the data are numeric variables and sorted by Patient ID and then numDays
 
 # STEP 2 #
 Use long number format EHR data to calculate cooccurence matrix
