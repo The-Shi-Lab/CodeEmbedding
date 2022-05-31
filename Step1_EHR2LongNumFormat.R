@@ -5,7 +5,7 @@
 
 
 ## 1)
-## create ID crosswalk for patient ID, dx, px, and lab ##
+## create ID crosswalk for patient ID, dx, px and lab. Format data into desired structure ##
 
 
 # Pt ID #
