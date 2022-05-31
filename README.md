@@ -8,11 +8,14 @@ As shown in Step1_EHR2LongNumFormat.R. This is a data prepossessing step to conv
 - All the data are numeric variables and sorted by Patient ID and then numDays
 
 # STEP 2 #
-Use long number format EHR data to calculate cooccurence matrix
-- Step2_EHR2CoOccurMatrix.py
-- ex1: python /nfs/turbo/mgi-shixu/project/AnalysisPipeline/CodeEmbedding_pipeline/code/Step2_EHR2CoOccurMatrix.py -i /nfs/turbo/mgi-shixu/project/AnalysisPipeline/CodeEmbedding_pipeline/data/LongFormat_Num/codeRecord.csv -o /nfs/turbo/mgi-shixu/project/AnalysisPipeline/CodeEmbedding_pipeline/data/CoOccurMatrix/Dx_CoOccurMatrix.csv -w 0 1 6 13
-- Alternative: Submit parallel jobs, to calculate the cooccurence matrix by chunks (numerous subsets of long number format EHR data, by adding arguments -c and -tc)
-- ex2: python /nfs/turbo/mgi-shixu/project/AnalysisPipeline/CodeEmbedding_pipeline/code/Step2_EHR2CoOccurMatrix.py -i /nfs/turbo/mgi-shixu/project/AnalysisPipeline/CodeEmbedding_pipeline/data/LongFormat_Num/codeRecord.csv -o /nfs/turbo/mgi-shixu/project/AnalysisPipeline/CodeEmbedding_pipeline/data/CoOccurMatrix/Dx_CoOccurMatrix.csv -tc 20 -c 2 -w 0 1 6 13
+As shown in Step2_EHR2CoOccurMatrix.py. This step uses data modified from step1 to calculate the co-occurrence matrix.
+- Create command line arguments,this part can be modified accordingly with the needs to convenient the process of running the codes.
+  * parser = argparse.ArgumentParser(description='Create co-occurrence matrix for EHR code within different time windows.')
+  * parser.add_argument('argument',nargs='associates a different number of command-line arguments with a single action',type=check the argument and converse it into integer,help='customized help message')
+  * args = parser.parse_args()
+- Define window in terms of day difference
+- 
+
 
 # STEP 3 #
 Merge all chunks result together into one triplet format sparse matrix 
