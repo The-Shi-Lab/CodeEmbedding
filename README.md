@@ -7,15 +7,51 @@ As shown in Step1_EHR2LongNumFormat.R. This is a data prepossessing step to conv
 - Notice: Please note that this procedure is specified with different data resources, that is, you need to create your personalized converting code for Step1 to get ready for further steps. 
 - All the data are numeric variables and sorted by Patient ID and then numDays
 
+
 # STEP 2 #
 As shown in Step2_EHR2CoOccurMatrix.py. This step uses data modified from step1 to calculate the co-occurrence matrix.
-- Create command line arguments,this part can be modified accordingly with the needs to convenient the process of running the codes.
-  * parser = argparse.ArgumentParser(description='Create co-occurrence matrix for EHR code within different time windows.')
-  * parser.add_argument('argument',nargs='associates a different number of command-line arguments with a single action',type=check the argument and converse it into integer,help='customized help message')
-  * args = parser.parse_args()
-- Define window in terms of day difference
-- 
-
+- Read in data and set up parameters
+  * Create command line arguments,this part can be modified accordingly with the needs to convenient the process of running the codes.
+   ```
+   parser = argparse.ArgumentParser(description='Create co-occurrence matrix for EHR code within different time windows.')
+   parser.add_argument('argument',nargs='associates a different number of command-line arguments with a single action',type=check the argument and converse it into integer,help='customized help message')
+   args = parser.parse_args()
+   ```
+  * Define window in terms of day difference
+  * Create matrices to store co-occurence count for each windows
+  * Read input file(the data set we created in Step1)
+  * Input chunk and total chunks through command line
+  * Calculate total number of patients and number of patients per chunk 
+   ```
+    total patients= max(patient id)--patients' id are recorded as a continuous integer
+    number of patients per chunk = round(total patients / total number of chuncks)
+   ```
+  * Calculate minimum patient id and maximum patient id for a chunk 
+- Calculate cooccurence matrix
+  * subset data to chunks based on the calculated patient ID range
+  * calculate cooccurance matrix
+   ```
+   FOR i in the range of subset chunk
+      READ patient_id, day, code to events_perpt.iloc[i]
+    FOR j from i+1 to the end of subset chunk
+      READ npatient_id, nday, ncode to events_perpt.iloc[j]
+        FOUND tempLoc(non-overlapping window interval) to insert the count
+        INSERT count
+         IF code < ncode 
+           matrices[tempLoc][(code,ncode)]+=1
+           ELSE
+             matrices[tempLoc][(ncode, code)]+=1
+         END IF  
+        IF patient_id = npatient_id 
+              BREAK
+        IF nday - day > the largest inputted window 
+              BREAK
+    ``` 
+ - Format output table
+   * format table to data frame
+   * 
+   
+  
 
 # STEP 3 #
 Merge all chunks result together into one triplet format sparse matrix 
