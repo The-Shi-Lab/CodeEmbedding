@@ -80,6 +80,7 @@ for i in range(len(events_perpt)-1):
 #########################
 
 # format table to data frame
+# convert a dataframe into a list like data type depending on orient parameter.
 tempall = [pd.DataFrame.from_dict(matrices[i], orient='index').reset_index() for i in range(len(windows))]
 for i in range(len(windows)):
     tempall[i]['window']=windows[i]
