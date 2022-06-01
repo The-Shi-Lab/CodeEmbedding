@@ -25,7 +25,7 @@ args = parser.parse_args()
 # window is defined in terms of day difference, e.g. window=0 indicates as the same day
 windows = args.windows
 
-# Create matrice to store co-occurence count for each windows
+# Create matrices to store co-occurence count for each windows
 matrices = [Counter() for _ in range(len(windows))]
 print(windows)
 
@@ -42,7 +42,7 @@ tot_chuncks = args.tot_chunks #tot_chuncks = 4800
 tot_pt = events['PId'].max()
 chunk_per_pt = round(tot_pt / tot_chuncks)
 
-# subset data into the chunk from Patient ID 'min_pid' to 'max_pid' 
+# calculate minimum patient id and maximum patient id for a chunk 
 min_pid = (chunk_per_pt*(chunk-1)+1)
 max_pid = chunk*chunk_per_pt
 
@@ -53,7 +53,7 @@ print(max_pid)
 ## Calculate cooccurence matrix ##
 ##################################
 
-# subset data to chunks, read the table file and subset based on the calculated ID range
+# subset data into the chunk based on the calculated ID range from Patient ID 'min_pid' to 'max_pid'  
 events_perpt = events.loc[(events['PId'] >= min_pid) & (events['PId'] <= max_pid)]
 
 bar = tqdm(total=len(events_perpt))
