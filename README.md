@@ -103,7 +103,8 @@ As shown in Step5_CosineSimilarity.R. This step we calculate cosine similarity a
   ```
   FOR j in the desired dimenions
      X = number of attributes possessed of the word vector/the Euclidean norm of vector
-     cosine similarity = X $\intercal X
+     cosine similarity = [X][X^T]
+  ```
 - Notice: The condensed version of code can be found in Step5_CosineSimilarity_short.R
 
 # References #
