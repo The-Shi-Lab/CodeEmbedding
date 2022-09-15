@@ -4,8 +4,11 @@
 
 # UKB data import #
 To get started with UKBiobank data, I would recommend to start with creating the UKB phenome, e.g., by using Lars's Rcode from here: https://github.com/umich-cphds/createUKBphenome, which give you overall outlook of UKB data structure and variable features.
+
     * Step 1: After cloning the repository, you have to add the absolute paths of the baskets (data pulls) from the files listed in: "/net/junglebook/home/larsf/UKB/baskets" to the file "./data/baskets.txt". Then copy the file "/net/junglebook/home/larsf/UKB/w24460_20220222.csv" (includes the list of individuals who withdrew) to the "./data" folder.
+    
     * Step 2: Create the phenome by running "Rscript ./scripts/function.createUKBphenome.r". After this step, you will get all ICD9 & ICD10 codes separately in the data frame names "ICD9" and "ICD10" for later use.
+    
     * Additional Step 3: Summarize ALL available UK data by running "Rscript ./scripts/function.summarizeAvailableData.r". Then, you will get the field description for each field variable (variable).
 
 ## UKB data preprocess ##
