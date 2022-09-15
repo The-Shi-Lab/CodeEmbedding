@@ -1,12 +1,21 @@
-# Analysis Pipeline to Generate Code Embeddings -- an example using MGI data
+# Analysis Pipeline to Generate Code Embeddings -- an example using UKB data
 
-## Adapted codes from Xu Shi, Xianshi Yu, and Kuan-Han Wu ##
+## Adapted codes from Xu Shi, Xianshi Yu, Kuan-Han Wu and Lars Fritsche ##
+
+# UKB data import #
+To get started with UKBiobank data, I would recommend to start with creating the UKB phenome, e.g., by using Lars's Rcode from here: https://github.com/umich-cphds/createUKBphenome, which give you overall outlook of UKB data structure and variable features.
+    * Step 1: After cloning the repository, you have to add the absolute paths of the baskets (data pulls) from the files listed in: "/net/junglebook/home/larsf/UKB/baskets" to the file "./data/baskets.txt". Then copy the file "/net/junglebook/home/larsf/UKB/w24460_20220222.csv" (includes the list of individuals who withdrew) to the "./data" folder.
+    * Step 2: Create the phenome by running "Rscript ./scripts/function.createUKBphenome.r". After this step, you will get all ICD9 & ICD10 codes separately in the data frame names "ICD9" and "ICD10" for later use.
+    * Additional Step 3: Summarize ALL available UK data by running "Rscript ./scripts/function.summarizeAvailableData.r". Then, you will get the field description for each field variable (variable).
+
+## UKB data preprocess ##
 
 # STEP 1 #
-As shown in Step1_EHR2LongNumFormat.R. This is a data prepossessing step to convert original EHR data into desired format. In this step we convert the raw data DiagnosisCode ProcedureCode and ResultCode from the dataset diagnosis, procedure, and lab respectively into unique long-form and record them in column code_num in new datasets. The new dataset converted from the raw set now has 3 columns: patient id, the day of the visit recorded as the day since birth, and medical codes as code_num.
+As shown in "function.UKB_icd.r". This is a data prepossessing step to convert original EHR data into desired format. In this step we convert the raw data DiagnosisCode ProcedureCode and ResultCode from the dataset diagnosis, procedure, and lab respectively into unique long-form and record them in column code_num in new datasets. The new dataset converted from the raw set now has 3 columns: patient id, the day of the visit recorded as the day since birth, and medical codes as code_num.
 - Notice: Please note that this procedure is specified with different data resources, that is, you need to create your personalized converting code for Step1 to get ready for further steps. 
 - All the data are numeric variables and sorted by Patient ID and then numDays
 
+Note that "function.reformatUKB.r" is revised a little bit for accommodating to goal of this project, and the amended version can be downloaded in this repository.
 
 # STEP 2 #
 As shown in Step2_EHR2CoOccurMatrix.py. This step uses data modified from step1 to calculate the co-occurrence matrix.
