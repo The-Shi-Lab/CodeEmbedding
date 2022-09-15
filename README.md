@@ -1,26 +1,32 @@
-# Analysis Pipeline to Generate Code Embeddings -- an example using UKB data
+# Analysis Pipeline to Generate Code Embeddings -- an example using UKB data and MGI data
 
 ## Adapted codes from Xu Shi, Xianshi Yu, Kuan-Han Wu and Lars Fritsche ##
 
 # UKB data import #
 To get started with UKBiobank data, I would recommend to start with creating the UKB phenome, e.g., by using Lars's Rcode from here: https://github.com/umich-cphds/createUKBphenome, which give you overall outlook of UKB data structure and variable features.
 
-    * Step 1: After cloning the repository, you have to add the absolute paths of the baskets (data pulls) from the files listed in: "/net/junglebook/home/larsf/UKB/baskets" to the file "./data/baskets.txt". Then copy the file "/net/junglebook/home/larsf/UKB/w24460_20220222.csv" (includes the list of individuals who withdrew) to the "./data" folder.
+  * Step 1: After cloning the repository, you have to add the absolute paths of the baskets (data pulls) from the files listed in: "/net/junglebook/home/larsf/UKB/baskets" to the file "./data/baskets.txt". Then copy the file "/net/junglebook/home/larsf/UKB/w24460_20220222.csv" (includes the list of individuals who withdrew) to the "./data" folder.
     
-    * Step 2: Create the phenome by running "Rscript ./scripts/function.createUKBphenome.r". After this step, you will get all ICD9 & ICD10 codes separately in the data frame names "ICD9" and "ICD10" for later use.
+  * Step 2: Create the phenome by running "Rscript ./scripts/function.createUKBphenome.r". After this step, you will get all ICD9 & ICD10 codes separately in the data frame names "ICD9" and "ICD10" for later use.
     
-    * Additional Step 3: Summarize ALL available UK data by running "Rscript ./scripts/function.summarizeAvailableData.r". Then, you will get the field description for each field variable (variable).
+  * Additional Step 3: Summarize ALL available UK data by running "Rscript ./scripts/function.summarizeAvailableData.r". Then, you will get the field description for each field variable (variable).
 
 ## UKB data preprocess ##
+### STEP 1 ###
+As shown in "function.UKB_icd.r". This is a data prepossessing step to convert original EHR data into desired format. In this step we convert the raw diagnostic data "ICD9" and "ICD10" into unique long-form and record them in column code_num in new datasets. The new dataset converted from the raw set now has 3 columns: patient id, the day of the visit recorded as the day since birth, and medical codes as code_num. For sake of rare code problem, we further she a threshold to distinguish frequent code and rare code where rare codes are first grouped up to phecode if possible and the remaining rare codes are truncated with at most one decimal place (it might be stay the same if it's already integer or a number with only one decimal place). Then we create a new name for such combination of 4 types of codes: original, rare_original, phecode, truncated.
+ 
+- All the data are numeric variables and sorted by Patient ID and then numDays
+- Note that "function.reformatUKB.r" is revised a little bit for accommodating cancer code naming pattern, and the amended version can be downloaded in this repository.
 
-# STEP 1 #
-As shown in "function.UKB_icd.r". This is a data prepossessing step to convert original EHR data into desired format. In this step we convert the raw data DiagnosisCode ProcedureCode and ResultCode from the dataset diagnosis, procedure, and lab respectively into unique long-form and record them in column code_num in new datasets. The new dataset converted from the raw set now has 3 columns: patient id, the day of the visit recorded as the day since birth, and medical codes as code_num.
+## MGI data preprocess
+### STEP 1 ###
+This is a data prepossessing step to convert original EHR data into desired format. In this step we convert the raw data DiagnosisCode ProcedureCode and ResultCode from the dataset diagnosis, procedure, and lab respectively into unique long-form and record them in column code_num in new datasets. The new dataset converted from the raw set now has 3 columns: patient id, the day of the visit recorded as the day since birth, and medical codes as code_num.
 - Notice: Please note that this procedure is specified with different data resources, that is, you need to create your personalized converting code for Step1 to get ready for further steps. 
 - All the data are numeric variables and sorted by Patient ID and then numDays
 
-Note that "function.reformatUKB.r" is revised a little bit for accommodating to goal of this project, and the amended version can be downloaded in this repository.
 
-# STEP 2 #
+
+### STEP 2 ###
 As shown in Step2_EHR2CoOccurMatrix.py. This step uses data modified from step1 to calculate the co-occurrence matrix.
 - Read in data and set up parameters
   * Create command line arguments,this part can be modified accordingly with the needs to convenient the process of running the codes.
@@ -67,7 +73,7 @@ As shown in Step2_EHR2CoOccurMatrix.py. This step uses data modified from step1 
    * output table into .cvs file with unified file name
   
 
-# STEP 3 #
+### STEP 3 ###
 As shown in Step3_Convert2SparseMatrix.R. This step merge the result of all chunks together into one triplet format sparse matrix 
 - Load necessary R package and the input file from step2 result
   * find the largest code id
@@ -99,7 +105,7 @@ As shown in Step3_Convert2SparseMatrix.R. This step merge the result of all chun
 - Output result
 
 
-# STEP 4 #
+### STEP 4 ###
 As shown in Step4_CreateEmbeddings.R. In this step we generate embeddings for desired dimension of the cooccurance matrix.
 - Load packages and data setting parameters
 - Generate embedding
@@ -108,7 +114,7 @@ As shown in Step4_CreateEmbeddings.R. In this step we generate embeddings for de
 - Output embedding results in both Rdata and csv format
 
 
-# STEP 5 #
+### STEP 5 ###
 As shown in Step5_CosineSimilarity.R. This step we calculate cosine similarity and use phecode to obtain AUC to evaluate the performance for different embedding dimentions. 
 - Generate Phecode/ICD mapping to extract phecode and format data
 - Calculate cosine similary 
