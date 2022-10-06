@@ -18,7 +18,7 @@ We recommend to start with creating the UKB phenome, e.g., by using Lar's script
 
 #### Data preprocess ####
 
-  * Step 1: 
+  * Step 1: Extract data from UKB
     * Obtain ICD10 codes for diagnosis, cancer, primary death, and secondary death as well as their respective patient id and date. 
     * Obtain ICD9 codes for diagnosis and cancer as well as their respective patient id and date. 
     * Combine the two datasets.
@@ -31,7 +31,7 @@ We recommend to start with creating the UKB phenome, e.g., by using Lar's script
    During this precedure, to avoid overlapped codes from the five groups, we create a new variable called ```NewCode``` which adds group-specific prefix for each code. For simplicity, we create a one-to-one mapping from ```NewCode``` to ```NewCode_num```, which contains 1 to n (number of unique ```NewCode```) in character format, and create a one-to-one mapping from the original patient id in UKB to ```Deid_ID_num``` in a similar manner. The final dataset has three columns: patient id (```Deid_ID_num```), date (```DaysSinceBirth```), and reformatted codes (```NewCode_num```).
    
    Note: 
-   1. since not all the codes can pass the threshold after grouping or mapping,  we recommand to check the proportion of discarded codes before the analysis. 
+   1. Since not all the codes can pass the threshold after grouping or mapping,  we recommand to check the proportion of discarded codes before the analysis. 
    2. We also output a file called ```NewCode_num_source.txt``` for future cross-reference. ```NewCode_num_source``` has three columns: ```NewCode```, ```NewCode_num```, ```Source```. This file will be cross-referenced in Steps 3 and 5.
 
 ----------------------------------------------------------------
