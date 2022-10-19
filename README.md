@@ -2,6 +2,12 @@
 
 ## Adapted codes from Xu Shi, Xianshi Yu, Kuan-Han Wu and Lars Fritsche ##
 
+### UKB ###
+
+
+![UKB_embedding-All drawio_20221019](https://user-images.githubusercontent.com/87385128/196650384-a912b615-e868-4d27-9258-fc03fd80a9a0.png)
+
+
 ## STEP 1: Data preprocess ##
 
 ### UKB ###
@@ -18,22 +24,11 @@ We recommend to start with creating the UKB phenome, e.g., by using Lar's script
 
 #### Data preprocess ####
 
-  * Step 1: Extract data from UKB
+  * Step 1: Extract data from UKB.
     * Obtain ICD10 codes for diagnosis, cancer, primary death, and secondary death as well as their respective patient id and date. 
     * Obtain ICD9 codes for diagnosis and cancer as well as their respective patient id and date. 
     * Combine the two datasets.
-  * Step 2: Hanlding rare codes
-  
-     For a given threshold, an ICD code is rare if the frequency it shows up is less than the threshold. Our goal for handling rare codes is to increase their frequency as much as possible. We follow the precedure shown in the flowchart below to handle rare codes. 
-  
-<img width="800" alt="UKB_handleRareCodes" src="https://user-images.githubusercontent.com/87385128/194054989-d0ba7d15-6769-4280-b3a6-ede675e0e74d.png">
-
-   During this precedure, to avoid overlapped codes from the five groups, we create a new variable called ```NewCode``` which adds group-specific prefix for each code. For simplicity, we create a one-to-one mapping from ```NewCode``` to ```NewCode_num```, which contains 1 to n (number of unique ```NewCode```) in character format, and create a one-to-one mapping from the original patient id in UKB to ```Deid_ID_num``` in a similar manner. The final dataset has three columns: patient id (```Deid_ID_num```), date (```DaysSinceBirth```), and reformatted codes (```NewCode_num```).
-   
-   Note: 
-   1. Since not all the codes can pass the threshold after grouping or mapping,  we recommand to check the proportion of discarded codes before the analysis. 
-   2. We also output a file called ```NewCode_num_source.txt``` for future cross-reference. ```NewCode_num_source``` has three columns: ```NewCode```, ```NewCode_num```, ```Source```. This file will be cross-referenced in Steps 3 and 5.
-
+  * Step 2: Hanlding rare codes.
 ----------------------------------------------------------------
 As shown in "function.UKB_icd.r". This is a data prepossessing step to convert original EHR data into desired format. In this step we convert the raw diagnostic data "ICD9" and "ICD10" into unique long-form and record them in column code_num in new datasets. The new dataset converted from the raw set now has 3 columns: patient id, the day of the visit recorded as the day since birth, and medical codes as code_num. For sake of rare code problem, we further set a threshold to distinguish frequent code and rare code where rare codes are first grouped up to phecode if possible and the remaining rare codes are truncated with at most one decimal place (it might be stay the same if it's already integer or a number with only one decimal place). Then we create a new name for such combination of 4 types of codes: original, rare_original, phecode, truncated.
  
