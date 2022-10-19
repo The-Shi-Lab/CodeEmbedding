@@ -4,8 +4,7 @@
 
 ### UKB ###
 
-
-![UKB_embedding-All drawio_20221019](https://user-images.githubusercontent.com/87385128/196650384-a912b615-e868-4d27-9258-fc03fd80a9a0.png)
+![UKB_embedding-All drawio_20221019](https://user-images.githubusercontent.com/87385128/196659930-1ee69f1d-3f28-4914-a583-1594c03fd0cc.png)
 
 
 ## STEP 1: Data preprocess ##
