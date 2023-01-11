@@ -27,7 +27,7 @@ We recommend to start with creating the UKB phenome, e.g., by using Lar's script
     * Obtain ICD10 codes for diagnosis, cancer, primary death, and secondary death as well as their respective patient id and date. 
     * Obtain ICD9 codes for diagnosis and cancer as well as their respective patient id and date. 
     * Combine the two datasets.
-  * Step 2: Hanlding rare codes.
+  * Step 2: Handling rare codes.
 ----------------------------------------------------------------
 As shown in "function.UKB_icd.r". This is a data prepossessing step to convert original EHR data into desired format. In this step we convert the raw diagnostic data "ICD9" and "ICD10" into unique long-form and record them in column code_num in new datasets. The new dataset converted from the raw set now has 3 columns: patient id, the day of the visit recorded as the day since birth, and medical codes as code_num. For sake of rare code problem, we further set a threshold to distinguish frequent code and rare code where rare codes are first grouped up to phecode if possible and the remaining rare codes are truncated with at most one decimal place (it might be stay the same if it's already integer or a number with only one decimal place). Then we create a new name for such combination of 4 types of codes: original, rare_original, phecode, truncated.
  
